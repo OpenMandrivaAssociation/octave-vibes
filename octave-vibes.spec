@@ -1,18 +1,21 @@
-%define octpkg vibes
-
-# Exclude .oct files from provides
-%define __provides_exclude_from ^%{octpkglibdir}/.*.oct$
+%global octpkg vibes
 
 Summary:	Integrates the VIBes API into Octave
 Name:		octave-%{octpkg}
 Version:	0.2.0
 Release:	1
-Source0:	http://downloads.sourceforge.net/octave/%{octpkg}-%{version}.tar.gz
+Url:		https://octave.sourceforge.io/%{octpkg}/
+Source0:	https://downloads.sourceforge.net/octave/%{octpkg}-%{version}.tar.gz
+# https://savannah.gnu.org/bugs/index.php?58859
+Patch0:		octave5.patch
+# https://savannah.gnu.org/bugs/index.php?59376
+Patch1:		build-against-octave-6.patch
+
 License:	GPLv3+ and MIT
 Group:		Sciences/Mathematics
-Url:		https://octave.sourceforge.io/%{octpkg}/
 
 BuildRequires:	octave-devel >= 4.0.0
+BuildRequires:	octave-interval
 
 Requires:	octave(api) = %{octave_api}
 
@@ -21,10 +24,12 @@ Requires(postun): octave
 
 %description
 The VIBes API allows one to easily display results (boxes, pavings) from
-interval methods.
+interval methods. VIBes consists in two parts:
  
- annotating and exporting figures, and (2) the VIBes API that enables your
- program to communicate with the viewer in order to draw figures.
+ 1. the VIBes application that features viewing, annotating and exporting
+    figures;
+ 2. the VIBes API that enables your program to communicate with the viewer
+    in order to draw figures.
  
 This package integrates the VIBes API into Octave. The VIBes application
 is required for operation and must be installed seperately. Data types from
@@ -32,14 +37,31 @@ third-party interval arithmetic libraries for Octave are also supported.
 
 This package is part of external Octave-Forge collection.
 
+%files
+%license COPYING
+%doc NEWS
+%dir %{octpkglibdir}
+%{octpkglibdir}/*
+%dir %{octpkgdir}
+%{octpkgdir}/*
+
+#---------------------------------------------------------------------------
+
 %prep
-%setup -qcT
+%autosetup -p1 -n %{octpkg}-%{version}
+
+# remove backup files
+#find . -name \*~ -delete
 
 %build
-%octave_pkg_build -T
+	%set_build_flags
+%octave_pkg_build
 
 %install
 %octave_pkg_install
+
+%check
+%octave_pkg_check
 
 %post
 %octave_cmd pkg rebuild
@@ -49,12 +71,4 @@ This package is part of external Octave-Forge collection.
 
 %postun
 %octave_cmd pkg rebuild
-
-%files
-%dir %{octpkglibdir}
-%{octpkglibdir}/*
-%dir %{octpkgdir}
-%{octpkgdir}/*
-%doc %{octpkg}-%{version}/NEWS
-%doc %{octpkg}-%{version}/COPYING
 
