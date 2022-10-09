@@ -1,0 +1,18 @@
+Description: Fix FTBFS against Octave 6.1
+ Use iscellstr method instead of deprecated is_cellstr.
+Author: Rafael Laboissière <rafael@debian.org>
+Bug-Debian: https://bugs.debian.org/976385
+Forwarded: no
+Last-Update: 2020-12-07
+
+--- octave-vibes-0.2.0.orig/src/__vibes__.cpp
++++ octave-vibes-0.2.0/src/__vibes__.cpp
+@@ -127,7 +127,7 @@ void axisLabels (const octave_value_list
+   __assertDrawing__ ();
+   std::vector<std::string> labels;
+   std::string figureName;
+-  if (args(0).is_cellstr ())
++  if (args(0).iscellstr ())
+     {
+       // The first argument is a cellstr: use its contents as labels
+       const Array<std::string> cellstr = args(0).cellstr_value ();

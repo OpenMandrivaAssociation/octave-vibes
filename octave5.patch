@@ -1,0 +1,19 @@
+Description: Fix FTBFS against Octave 5
+ mkoctfile now passes -Werror=format-security, so we explicitly set the format
+ string in calls to error().
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: no
+Last-Update: 2019-10-07
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/src/__vibes__.cpp
++++ b/src/__vibes__.cpp
+@@ -396,7 +396,7 @@ DEFUN_DLD (__vibes__, args, nargout,
+     }
+   catch (std::exception& e)
+     {
+-      error (e.what ());
++      error ("%s", e.what ());
+     }
+   catch (...)
+     {
