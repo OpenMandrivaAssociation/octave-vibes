@@ -4,7 +4,7 @@ Summary:	Integrates the VIBes API into Octave
 Name:		octave-%{octpkg}
 Version:	0.2.0
 Release:	1
-Url:		https://octave.sourceforge.io/%{octpkg}/
+Url:		https://packages.octave.org/%{octpkg}/
 Source0:	https://downloads.sourceforge.net/octave/%{octpkg}-%{version}.tar.gz
 # https://savannah.gnu.org/bugs/index.php?58859
 Patch0:		octave5.patch
@@ -35,8 +35,6 @@ This package integrates the VIBes API into Octave. The VIBes application
 is required for operation and must be installed seperately. Data types from
 third-party interval arithmetic libraries for Octave are also supported.
 
-This package is part of external Octave-Forge collection.
-
 %files
 %license COPYING
 %doc NEWS
@@ -54,7 +52,7 @@ This package is part of external Octave-Forge collection.
 #find . -name \*~ -delete
 
 %build
-	%set_build_flags
+%set_build_flags
 %octave_pkg_build
 
 %install
