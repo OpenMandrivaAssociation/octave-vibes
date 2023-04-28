@@ -1,23 +1,23 @@
 %global octpkg vibes
 
 Summary:	Integrates the VIBes API into Octave
-Name:		octave-%{octpkg}
+Name:		octave-vibes
 Version:	0.2.0
-Release:	1
-Url:		https://packages.octave.org/%{octpkg}/
+Release:	2
+License:	GPLv3+ and MIT
+Group:		Sciences/Mathematics
+Url:		https://packages.octave.org/vibes/
 Source0:	https://downloads.sourceforge.net/octave/%{octpkg}-%{version}.tar.gz
 # https://savannah.gnu.org/bugs/index.php?58859
 Patch0:		octave5.patch
 # https://savannah.gnu.org/bugs/index.php?59376
 Patch1:		build-against-octave-6.patch
 
-License:	GPLv3+ and MIT
-Group:		Sciences/Mathematics
-
-BuildRequires:	octave-devel >= 4.0.0
+BuildRequires:  octave-devel >= 4.0.0
 BuildRequires:	octave-interval
 
 Requires:	octave(api) = %{octave_api}
+Requires:	octave-interval
 
 Requires(post): octave
 Requires(postun): octave
@@ -38,18 +38,16 @@ third-party interval arithmetic libraries for Octave are also supported.
 %files
 %license COPYING
 %doc NEWS
-%dir %{octpkglibdir}
-%{octpkglibdir}/*
 %dir %{octpkgdir}
 %{octpkgdir}/*
+%dir %{octpkglibdir}
+%{octpkglibdir}/*
+#{_metainfodir}/*.metainfo.xml
 
 #---------------------------------------------------------------------------
 
 %prep
 %autosetup -p1 -n %{octpkg}-%{version}
-
-# remove backup files
-#find . -name \*~ -delete
 
 %build
 %set_build_flags
