@@ -3,7 +3,7 @@
 Summary:	Integrates the VIBes API into Octave
 Name:		octave-vibes
 Version:	0.2.0
-Release:	2
+Release:	3
 License:	GPLv3+ and MIT
 Group:		Sciences/Mathematics
 Url:		https://packages.octave.org/vibes/
